@@ -32,7 +32,17 @@
 
 ---
 
-# Spring Boot Structure
+- 프레젠테이션 계층 (Contoller)
+- 비즈니스 계층 (Service)
+- 퍼시스턴스 계층 (Repository)
+
+# Spring Boot Flow
+
+request to tomcat /test GET
+-> 스프링 부트의 디스패처 서블릿이 URL 분석 후 알맞은 컨트롤러를 탐색
+-> /test에 GET 요청 처리가능한 메서드를 가진 것을 디스패치 서블릿이 확인하고 해당 컨트롤러에 /test GET 요청을 전달
+-> 해당 컨트롤러의 메서드에서 비즈니스 계층과 퍼시스턴스 계층을 통해 필요한 데이터를 가져옴
+-> 뷰 리졸버가 템플릿 엔진을 사용해 HTML, JSON, XML 데이터를 생성
 
 
 ---
