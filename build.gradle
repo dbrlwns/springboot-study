@@ -20,6 +20,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2' // h2 in-memory db
     compileOnly 'org.projectlombok:lombok' // lombok
     annotationProcessor 'org.projectlombok:lombok'
+
+    // template
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {
