@@ -23,6 +23,9 @@ dependencies {
 
     // template
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Rome(RSS Parser)
+    implementation 'com.rometools:rome:2.1.0'
 }
 
 test {
