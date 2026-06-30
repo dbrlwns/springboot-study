@@ -103,3 +103,16 @@ URL 분리
 Repository에 List<News>  findAllByOrderByPublishedAtDesc(); 추가
 
 - 조회할 때 출간순(내림차순)으로 저장된 객체를 조회, DB 배치와는 관계없음
+
+---
+Repository에 List<News> findByTitleContainingOrderByPublishedAtDesc(String title); 추가
+
+- title에 특정 키워드가 포함된 News 찾기
+- service에서 keyword 인자를 받아 조건 처리, controller에서 인자(쿼리스트링)를 받도록 설정
+```html
+<form th:action="@{/news}" method="get">
+    <label><input type="text" name="keyword" />
+```
+input의 name 속성을 사용해 쿼리스트링을 사용할 수 있음
+
+--- 

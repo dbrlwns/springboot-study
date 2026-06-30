@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>News page</title>
+    <title>Title</title>
 </head>
 <body>
+<h1>News List Page</h1>
+<form th:action="@{/news/collect}" method="post">
+    <button type="submit">뉴스 새로고침</button>
+</form>
+<form th:action="@{/news}" method="get">
+    <label><input type="text" name="keyword" /></label>
+    <input type="submit" />
+</form>
+<ul>
+    <li th:each="news : ${newsList}">
+        <a th:href="${news.url}" th:text="${news.title}" target="_blank">
+            뉴스 제목
+        </a>
 
+        <span th:text="${news.publisher}">언론사</span>
+        <span th:text="${news.publishedAt}">발행일</span>
+    </li>
+</ul>
 </body>
 </html>

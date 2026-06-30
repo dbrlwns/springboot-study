@@ -8,5 +8,8 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News,Long> {
 
     boolean existsByUrl(String url);
+
     List<News>  findAllByOrderByPublishedAtDesc();
+
+    List<News> findByTitleContainingOrderByPublishedAtDesc(String title);
 }

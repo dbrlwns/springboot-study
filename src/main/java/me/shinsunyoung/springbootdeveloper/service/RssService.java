@@ -25,8 +25,14 @@ public class RssService {
     private final NewsRepository repository;
 
     // 뉴스 데이터 조회 후 반환
-    public List<NewsResponse> getNews() {
-        return repository.findAllByOrderByPublishedAtDesc().stream()
+    public List<NewsResponse> getNews(String keyword) {
+        List<News> newsList;
+        if (keyword == null || keyword.isBlank()) {
+            newsList = repository.findAllByOrderByPublishedAtDesc();
+        } else {
+            newsList = repository.findByTitleContainingOrderByPublishedAtDesc(keyword);
+        }
+        return newsList.stream()
                 .map(news -> new NewsResponse(
                         news.getId(),
                         news.getTitle(),

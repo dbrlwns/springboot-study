@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RequiredArgsConstructor
@@ -18,9 +19,9 @@ public class RssController {
 
 
     @GetMapping("/news")
-    public String newsList(Model model) throws FeedException {
-        model.addAttribute("newsList", rssService.getNews());
-        return "newsList";
+    public String newsList(@RequestParam(required = false) String keyword, Model model){
+        model.addAttribute("newsList", rssService.getNews(keyword));
+        return "news";
     }
 
     @PostMapping("/news/collect")
