@@ -37,7 +37,7 @@ public class RssRestController {
         return ResponseEntity.status(HttpStatus.OK).body(new NewsCollectResponse(savedCode, LocalDateTime.now()));
     }
 
-    public record NewsCollectResponse(int statusCode, LocalDateTime date) {
+    public record NewsCollectResponse(int savedCount, LocalDateTime date) {
     }
 }
 

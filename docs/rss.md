@@ -98,3 +98,8 @@ URL 분리
 - POST /news/collect : RSS 수집 후 /news redirect
 
 추후에 JS를 사용해 비동기로 수집/갱신 가능
+
+---
+Repository에 List<News>  findAllByOrderByPublishedAtDesc(); 추가
+
+- 조회할 때 출간순(내림차순)으로 저장된 객체를 조회, DB 배치와는 관계없음

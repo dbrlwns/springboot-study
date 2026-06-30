@@ -38,7 +38,7 @@ public class RssApiTest {
 
     @DisplayName("Rss test")
     @Test
-    void printRssTest() throws Exception {
+    void getRssTest() throws Exception {
         //given
         final String url = "https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko";
 

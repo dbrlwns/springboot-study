@@ -24,12 +24,9 @@ public class RssService {
     private final RssClient rssClient;
     private final NewsRepository repository;
 
-    public List<NewsResponse> getNews() throws FeedException {
-        String rssXml = rssClient.fetch();
-
-        SyndFeed feed = new SyndFeedInput().build(new StringReader(rssXml));
-
-        return repository.findAll().stream()
+    // 뉴스 데이터 조회 후 반환
+    public List<NewsResponse> getNews() {
+        return repository.findAllByOrderByPublishedAtDesc().stream()
                 .map(news -> new NewsResponse(
                         news.getId(),
                         news.getTitle(),
@@ -37,29 +34,6 @@ public class RssService {
                         news.getPublisher(),
                         news.getPublishedAt()
                 )).toList();
-
-//        for(SyndEntry entry: feed.getEntries()){
-////            System.out.println("title = " + entry.getTitle());
-////            System.out.println("link = " + entry.getLink());
-////            System.out.println("publishedAt = " + entry.getPublishedDate());
-////
-////            if (entry.getSource() != null) {
-////                System.out.println("publisher = " + entry.getSource().getTitle());
-////            }
-////
-////            if (entry.getDescription() != null) {
-////                System.out.println("description = " + entry.getDescription().getValue());
-////            }
-////
-////            System.out.println("------");
-//            News news = entryToNews(entry);
-//            System.out.println(news.getTitle());
-//            System.out.println(news.getUrl());
-//            System.out.println(news.getPublisher());
-//            System.out.println(news.getPublishedAt());
-//
-//        }
-
     }
 
     public int collectNews() throws Exception {
