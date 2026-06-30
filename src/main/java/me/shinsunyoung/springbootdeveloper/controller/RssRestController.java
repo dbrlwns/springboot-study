@@ -19,24 +19,25 @@ public class RssRestController {
 
     private final RssService rssService;
 
-    @GetMapping("/news")
+    @GetMapping("/api/news")
     public ResponseEntity<List<NewsResponse>> getNews() throws FeedException {
         List<NewsResponse> newsList = rssService.getNews();
 
         return ResponseEntity.status(HttpStatus.OK).body(newsList);
     }
 
-    @PostMapping("/news/collect")
+    @PostMapping("/api/news/collect")
     public ResponseEntity<NewsCollectResponse> collectNews() throws FeedException {
-        int statusCode;
+        int savedCode;
         try{
-            statusCode = rssService.collectNews();
+            savedCode = rssService.collectNews();
         } catch (Exception e){
             throw new RuntimeException(e);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new NewsCollectResponse(statusCode, LocalDateTime.now()));
+        return ResponseEntity.status(HttpStatus.OK).body(new NewsCollectResponse(savedCode, LocalDateTime.now()));
+    }
+
+    public record NewsCollectResponse(int statusCode, LocalDateTime date) {
     }
 }
 
-record NewsCollectResponse(int statusCode, LocalDateTime date) {
-}
