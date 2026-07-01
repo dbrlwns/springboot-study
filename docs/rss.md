@@ -116,3 +116,18 @@ Repository에 List<News> findByTitleContainingOrderByPublishedAtDesc(String titl
 input의 name 속성을 사용해 쿼리스트링을 사용할 수 있음
 
 --- 
+```java
+public String collectNews(RedirectAttributes redirectAttributes){
+    redirectAttributes.addFlashAttribute("savedCount", savedCount);
+    ...
+}
+```
+- controller에서 리다이렉트 시 전송할 쿼리스트링 설정
+- 이후 리다이렉트되는 controller에서 RequestParam으로 받아줘야 함.
+
+--- 
+수동 수집 -> 자동 수집
+spring Main 클래스에 @EnableScheduling 를 붙여주고
+스케줄러 클래스를 하나 생성하고, @Scheduled(fixedRate=(ms단위 시간))을 가진 내부 함수 생성
+
+---
