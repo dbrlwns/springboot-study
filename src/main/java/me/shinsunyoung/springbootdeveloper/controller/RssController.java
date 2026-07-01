@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @RequiredArgsConstructor
@@ -19,14 +20,19 @@ public class RssController {
 
 
     @GetMapping("/news")
-    public String newsList(@RequestParam(required = false) String keyword, Model model){
+    public String newsList(@RequestParam(required = false) String keyword,
+                           @RequestParam(required = false) Integer savedCount,
+                           Model model){
         model.addAttribute("newsList", rssService.getNews(keyword));
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("savedCount", savedCount);
         return "news";
     }
 
     @PostMapping("/news/collect")
-    public String collectNews() throws Exception {
-        rssService.collectNews();
+    public String collectNews(RedirectAttributes redirectAttributes) throws Exception {
+        int savedCount = rssService.collectNews();
+        redirectAttributes.addAttribute("savedCount", savedCount);
         return "redirect:/news";
     }
 }

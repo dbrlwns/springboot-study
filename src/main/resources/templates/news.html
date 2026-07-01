@@ -13,6 +13,12 @@
     <label><input type="text" name="keyword" /></label>
     <input type="submit" />
 </form>
+<p th:if="${savedCount != null}">
+    저장된 뉴스 : <span th:text="${savedCount}"></span>개
+</p>
+<p th:if="${keyword != null && !keyword.isBlank()}">
+    검색어 : <span th:text="${keyword}"></span>
+</p>
 <ul>
     <li th:each="news : ${newsList}">
         <a th:href="${news.url}" th:text="${news.title}" target="_blank">
