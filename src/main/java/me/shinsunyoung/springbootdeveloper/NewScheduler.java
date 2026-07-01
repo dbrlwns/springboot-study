@@ -12,7 +12,7 @@ public class NewScheduler {
 
     private final RssService rssService;
 
-    @Scheduled(fixedRate = 1000 * 60 * 10)  // 10분마다 자동 실행
+    @Scheduled(fixedRateString = "${rss.collect-fixed-rate}")  // 10분마다 자동 실행
     public void scheduled() throws Exception {
         rssService.collectNews();
     }

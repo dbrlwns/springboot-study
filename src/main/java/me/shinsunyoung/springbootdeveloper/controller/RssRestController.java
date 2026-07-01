@@ -1,6 +1,5 @@
 package me.shinsunyoung.springbootdeveloper.controller;
 
-import com.rometools.rome.io.FeedException;
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.dto.NewsResponse;
 import me.shinsunyoung.springbootdeveloper.service.RssService;
@@ -28,17 +27,18 @@ public class RssRestController {
     }
 
     @PostMapping("/api/news/collect")
-    public ResponseEntity<NewsCollectResponse> collectNews() {
+    public ResponseEntity<NewsCollectResponse> collectNews(){
         int savedCode;
-        try{
+        try {
             savedCode = rssService.collectNews();
         } catch (Exception e){
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new NewsCollectResponse(0, LocalDateTime.now(), "뉴스 수집 실패"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new NewsCollectResponse(savedCode, LocalDateTime.now()));
+        return ResponseEntity.status(HttpStatus.OK).body(new NewsCollectResponse(savedCode, LocalDateTime.now(), null));
     }
 
-    public record NewsCollectResponse(int savedCount, LocalDateTime date) {
-    }
+
+    public record NewsCollectResponse(int savedCount, LocalDateTime date, String errorMessage) {}
 }
 

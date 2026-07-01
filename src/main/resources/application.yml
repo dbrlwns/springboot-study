@@ -17,3 +17,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
 
+
+rss:
+  google-rss-url: https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko
+  collect-fixed-rate: 100000

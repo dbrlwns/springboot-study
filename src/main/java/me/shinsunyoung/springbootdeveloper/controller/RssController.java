@@ -1,8 +1,6 @@
 package me.shinsunyoung.springbootdeveloper.controller;
 
-import com.rometools.rome.io.FeedException;
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
 import me.shinsunyoung.springbootdeveloper.service.RssService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @Controller
 public class RssController {
-//    private final NewsRepository newsRepository; // Controller <-> Service <-> Repository
+
     private final RssService rssService;
 
 
@@ -30,9 +28,13 @@ public class RssController {
     }
 
     @PostMapping("/news/collect")
-    public String collectNews(RedirectAttributes redirectAttributes) throws Exception {
-        int savedCount = rssService.collectNews();
-        redirectAttributes.addAttribute("savedCount", savedCount);
+    public String collectNews(RedirectAttributes redirectAttributes){
+        try {
+            int savedCount = rssService.collectNews();
+            redirectAttributes.addFlashAttribute("savedCount", savedCount);
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("errorMessage", "서비스에서 뉴스 수집에 실패");
+        }
         return "redirect:/news";
     }
 }

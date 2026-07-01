@@ -1,19 +1,20 @@
 package me.shinsunyoung.springbootdeveloper.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 @Component
 public class RssClient {
 
-    private static final String RSS_URL =
-            "https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko";
+    @Value("${rss.google-rss-url}")
+    private String rssUrl;
 
     private final RestClient restClient = RestClient.create();
 
     public String fetch(){
         return restClient.get()
-                .uri(RSS_URL)
+                .uri(rssUrl)
                 .retrieve()
                 .body(String.class);
     }

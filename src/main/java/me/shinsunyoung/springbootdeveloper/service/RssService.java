@@ -66,7 +66,6 @@ public class RssService {
                 .title(entry.getTitle())
                 .url(entry.getLink())
                 .publisher(publisher)
-//                .publishedAt(LocalDateTime.ofInstant(entry.getPublishedDate().toInstant(), ZoneId.systemDefault()))
                 .publishedAt(entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                 .fetchedAt(LocalDateTime.now())
                 .build();

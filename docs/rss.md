@@ -131,3 +131,18 @@ spring Main 클래스에 @EnableScheduling 를 붙여주고
 스케줄러 클래스를 하나 생성하고, @Scheduled(fixedRate=(ms단위 시간))을 가진 내부 함수 생성
 
 ---
+
+- Service의 collectNews() 에서 생기는 예외를 Controller에서 처리
+- throws Exception은 Spring에 넘겨 500 에러 페이지를 보여주지만
+- try-catch 문으로 직접 처리해, 에러를 직접 처리할 수 있다.
+
+|추후 예외 처리|
+|---|
+|@ControllerAdvice|
+|@RestControllerAdvice|
+|커스텀 예외 클래스|
+|HTTP 상태 코드별 응답|
+|로그 처리|
+
+---
+
