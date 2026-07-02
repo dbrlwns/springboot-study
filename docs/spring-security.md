@@ -38,3 +38,19 @@
 - 로그인 시 사용자 정보를 가져오는 UserDetailService 클래스 생성(UserDetailService 인터페이스 상속)
 - 여기까지 인증을 위한 도메인(User.java), 레포지토리, 서비스가 완성됨.
 - 실제 인증 처리를 하는 WebSecurityConfig.java 작성
+
+
+---
+## 회원가입
+- 회원가입 서비스 메서드 작성 후 컨트롤러 작성
+- AddUserRequest Dto 클래스 생성, UserService 작성
+- UserApiController과 UserController(UserViewController) 작성
+- 
+- login.html, signup.html 작성
+- UserApiController에 로그아웃 메서드 추가, view에 로그아웃 버튼 추가
+
+회원 가입 후 h2-console에 확인 시
+
+| ID | EMAIL             | PASSWORD                                                     |
+|----|-------------------|--------------------------------------------------------------|
+| 1  | jkk4743@gmail.com | $2a$10$dpZdv68PtecByZtLFS5SneuP/31.6Jvil7zM1S0bR1R7LeX7NuN5W |
