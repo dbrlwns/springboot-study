@@ -145,4 +145,17 @@ spring Main 클래스에 @EnableScheduling 를 붙여주고
 |로그 처리|
 
 ---
+Spring Security 설정 후 bookmark 테이블 생성
+- id
+- user_id
+- news_id
+- created_at 
 
+- .
+
+### 북마크 저장
+뉴스 목록에서 담기 버튼 클릭
+→ /news/{newsId}/bookmark 로 POST
+→ 현재 로그인 사용자 확인
+→ newsId로 News 조회
+→ Bookmark(user, news) 저장

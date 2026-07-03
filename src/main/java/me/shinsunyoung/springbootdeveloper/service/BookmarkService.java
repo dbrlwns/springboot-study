@@ -1,0 +1,36 @@
+package me.shinsunyoung.springbootdeveloper.service;
+
+import lombok.RequiredArgsConstructor;
+import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
+import me.shinsunyoung.springbootdeveloper.domain.News;
+import me.shinsunyoung.springbootdeveloper.domain.User;
+import me.shinsunyoung.springbootdeveloper.repository.BookmarkRepository;
+import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class BookmarkService {
+
+    private final BookmarkRepository bookmarkRepository;
+    private final NewsRepository newsRepository;
+
+    public void addBookmark(User user, Long newsId){
+        News news = newsRepository.findById(newsId)
+                .orElseThrow(() -> new IllegalArgumentException("News not found"));
+
+
+        // 중복방지 처리
+        if(bookmarkRepository.existsBookmarkByUserAndNews(user, news)){
+            return;
+        }
+
+        Bookmark bookmark = Bookmark.builder()
+                .user(user)
+                .news(news)
+                .build();
+
+        bookmarkRepository.save(bookmark);
+    }
+
+}
