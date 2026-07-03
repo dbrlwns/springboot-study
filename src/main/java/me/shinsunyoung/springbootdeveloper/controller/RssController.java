@@ -51,4 +51,10 @@ public class RssController {
         bookmarkService.addBookmark(user, newsId);
         return "redirect:/news";
     }
+
+    @GetMapping("/my/news")
+    public String myNews(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute("newsList", bookmarkService.getMyBookmarkedNews(user));
+        return "myNews";
+    }
 }

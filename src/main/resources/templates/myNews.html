@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+
+<body>
+<header>
+  <h1>User News List Page</h1>
+  <div sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a> </div>
+  <div sec:authorize="isAuthenticated()">
+    user : <span sec:authentication="name"></span><br />
+    authorization : <span sec:authentication="principal.authorities"></span>
+    <button type="button" onclick="location.href='/logout'">Logout</button>
+  </div>
+  <!--    <p th:text="${#authentication.principal.id}"></p>-->
+  <!--    <p th:text="${#authentication.principal.email}"></p>-->
+</header>
+
+<section>
+  <form th:action="@{/news}" method="get">
+    <label><input type="text" name="keyword" th:value="${keyword}" placeholder="검색어 입력" /></label>
+    <input type="submit" />
+  </form>
+</section>
+
+<section>
+  <p th:if="${savedCount != null}">
+    저장된 뉴스 : <span th:text="${savedCount}"></span>개
+  </p>
+  <p th:if="${keyword != null and !keyword.isBlank()}">
+    검색어 : <span th:text="${keyword}"></span>
+  </p>
+</section>
+
+<section>
+  <p th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
+  <ul>
+    <li th:each="news : ${newsList}">
+      <a th:href="${news.url}" th:text="${news.title}" target="_blank">
+        뉴스 제목
+      </a>
+
+      <span th:text="${news.publisher}">언론사</span>
+      <span th:text="${#temporals.format(news.publishedAt, 'yyyy-MM-dd HH:mm')}">발행일</span>
+      <!--            해당 뉴스로 Bookmark 생성-->
+      <form th:action="@{/news/bookmark/{newsId}(newsId = ${news.id})}" method="POST">
+        <button type="submit">Bookmark 저장</button>
+      </form>
+    </li>
+  </ul>
+  <p th:if="${#lists.isEmpty(newsList)}">
+    표시할 뉴스가 없습니다.
+  </p>
+</section>
+</body>
+</html>
