@@ -34,16 +34,26 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth // 인증, 인가
-                        .requestMatchers("/login", "/signup", "/user").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/user", "/news").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form // 폼 기반 로그인 설정
                         .loginPage("/login")
                         .defaultSuccessUrl("/news", true)
                 )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true)
+                .logout(logout -> {
+                    logout
+//                                    .logoutSuccessUrl("/login")
+                            .logoutSuccessHandler((request, response, authentication) -> {
+                                String referer = request.getHeader("referer");
+                                if (referer == null || referer.isBlank()) {
+                                    response.sendRedirect("/login");    // fallback
+                                    return;
+                                }
+                                response.sendRedirect(referer);
+                            })
+                                    .invalidateHttpSession(true);
+                        }
                 )
                 .csrf(AbstractHttpConfigurer::disable)   // csrf 비황성화
                 .build();

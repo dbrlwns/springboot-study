@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,7 +9,14 @@
 <body>
 <header>
     <h1>News List Page</h1>
-    <button type="button" onclick="location.href='/logout'">Logout</button>
+    <div sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a> </div>
+    <div sec:authorize="isAuthenticated()">
+        user : <span sec:authentication="name"></span><br />
+        authorization : <span sec:authentication="principal.authorities"></span>
+        <button type="button" onclick="location.href='/logout'">Logout</button>
+    </div>
+<!--    <p th:text="${#authentication.principal.id}"></p>-->
+<!--    <p th:text="${#authentication.principal.email}"></p>-->
 </header>
 
 <section>

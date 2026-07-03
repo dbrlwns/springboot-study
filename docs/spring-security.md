@@ -54,3 +54,8 @@
 | ID | EMAIL             | PASSWORD                                                     |
 |----|-------------------|--------------------------------------------------------------|
 | 1  | jkk4743@gmail.com | $2a$10$dpZdv68PtecByZtLFS5SneuP/31.6Jvil7zM1S0bR1R7LeX7NuN5W |
+
+--- 
+- 로그인 후에는 SecurityContext 안에 현재 사용자 정보가 들어간다.
+- Thymeleaf에서는 #authentication 또는 sec:authentication으로 꺼내 볼 수 있음.
+- 

@@ -28,6 +28,8 @@ public class UserApiController {
     public String logout(HttpServletRequest request, HttpServletResponse response){
         new SecurityContextLogoutHandler().logout(request, response,
                 SecurityContextHolder.getContext().getAuthentication());
+
+        // View요청에서는 Spring Security의 Filter가 먼저 실행됨.(리다이렉트 우선)
         return "redirect:/login";
     }
 }
