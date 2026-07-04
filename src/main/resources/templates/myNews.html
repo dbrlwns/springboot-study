@@ -45,9 +45,9 @@
 
       <span th:text="${news.publisher}">언론사</span>
       <span th:text="${#temporals.format(news.publishedAt, 'yyyy-MM-dd HH:mm')}">발행일</span>
-      <!--            해당 뉴스로 Bookmark 생성-->
-      <form th:action="@{/news/bookmark/{newsId}(newsId = ${news.id})}" method="POST">
-        <button type="submit">Bookmark 저장</button>
+      <!--            Bookmark 삭제-->
+      <form th:action="@{/my/news/{newsId}/delete(newsId = ${news.id})}" method="POST">
+        <button type="submit">Bookmark 삭제</button>
       </form>
     </li>
   </ul>

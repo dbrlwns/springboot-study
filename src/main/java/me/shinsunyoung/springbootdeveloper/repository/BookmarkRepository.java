@@ -11,4 +11,5 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     boolean existsBookmarkByUserAndNews(User user, News news);   // Service에서 중복방지 사용
 
     List<Bookmark> findByUserOrderByCreatedAtDesc(User user);
+    void deleteByUserAndNews(User user, News news);
 }

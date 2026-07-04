@@ -159,3 +159,12 @@ Spring Security 설정 후 bookmark 테이블 생성
 → 현재 로그인 사용자 확인
 → newsId로 News 조회
 → Bookmark(user, news) 저장
+
+
+---
+jakarta.persistence.TransactionRequiredException: No EntityManager with actual transaction available
+cannot reliably process 'remove' call 
+- 삭제하려면 DB 변경 작업이니까 트랜잭션이 필요한데, 현재 메서드에 트랜잭션이 없음.
+- -> 서비스 메서드에 @Transactional 을 붙여 해결가능, 레포지토리 메서드에도 붙일 수 있음.
+- - 
+- 저장은 문제없었는데 삭제에서만 문제가 발생 : save()는 트랜잭션을 자동으로 잡아 처리되지만, remove처리는 잡아주지 않음.

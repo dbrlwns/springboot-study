@@ -1,5 +1,6 @@
 package me.shinsunyoung.springbootdeveloper.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
 import me.shinsunyoung.springbootdeveloper.domain.News;
@@ -47,6 +48,14 @@ public class BookmarkService {
                         news.getPublishedAt()
                 ))
                 .toList();
+    }
+
+    @Transactional
+    public void deleteBookmark(User user, Long newsId){
+        News news = newsRepository.findById(newsId)
+                .orElseThrow(() -> new IllegalArgumentException("News not found"));
+
+        bookmarkRepository.deleteByUserAndNews(user, news);
     }
 
 }

@@ -57,4 +57,11 @@ public class RssController {
         model.addAttribute("newsList", bookmarkService.getMyBookmarkedNews(user));
         return "myNews";
     }
+
+    // 북마크 삭제
+    @PostMapping("/my/news/{newsId}/delete")
+    public String deleteBookmark(@PathVariable Long newsId, @AuthenticationPrincipal User user){
+        bookmarkService.deleteBookmark(user, newsId);
+        return "redirect:/my/news";
+    }
 }
