@@ -58,4 +58,11 @@ public class BookmarkService {
         bookmarkRepository.deleteByUserAndNews(user, news);
     }
 
+    public List<Long> getBookmarkedNewsIds(User user){
+        return bookmarkRepository.findByUserOrderByCreatedAtDesc(user)
+                .stream()
+                .map(bookmark -> bookmark.getNews().getId())
+                .toList();
+    }
+
 }

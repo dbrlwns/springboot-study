@@ -27,10 +27,16 @@ public class RssController {
     @GetMapping("/news")
     public String newsList(@RequestParam(required = false) String keyword,
                            @RequestParam(required = false) Integer savedCount,
+                           @AuthenticationPrincipal User user,
                            Model model){
         model.addAttribute("newsList", rssService.getNews(keyword));
         model.addAttribute("keyword", keyword);
         model.addAttribute("savedCount", savedCount);
+
+        // 현재 사용자 북마크 정보 전달
+        if (user != null) {
+            model.addAttribute("bookmarkedNewsIds", bookmarkService.getBookmarkedNewsIds(user));
+        }
         return "news";
     }
 

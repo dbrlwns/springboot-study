@@ -11,7 +11,7 @@
     <h1>News List Page</h1>
     <div sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a> </div>
     <div sec:authorize="isAuthenticated()">
-        user : <span sec:authentication="name"></span><br />
+        <a th:href="@{/my/news}">user : <span sec:authentication="name"></span></a><br />
         authorization : <span sec:authentication="principal.authorities"></span>
         <button type="button" onclick="location.href='/logout'">Logout</button>
     </div>
@@ -48,10 +48,16 @@
 
             <span th:text="${news.publisher}">언론사</span>
             <span th:text="${#temporals.format(news.publishedAt, 'yyyy-MM-dd HH:mm')}">발행일</span>
-<!--            해당 뉴스로 Bookmark 생성-->
-            <form th:action="@{/news/bookmark/{newsId}(newsId = ${news.id})}" method="POST">
-                <button type="submit">Bookmark 저장</button>
-            </form>
+
+            <!--            해당 뉴스로 Bookmark 생성-->
+            <div sec:authorize="isAnonymous()"><small>로그인 후 저장가능</small> </div>
+            <div sec:authorize="isAuthenticated()">
+                <span th:if="${bookmarkedNewsIds != null and bookmarkedNewsIds.contains(news.id)}">담김</span>
+                <form th:if="${bookmarkedNewsIds == null or !bookmarkedNewsIds.contains(news.id)}" th:action="@{/news/bookmark/{newsId}(newsId = ${news.id})}" method="POST">
+                    <button type="submit">Bookmark 저장</button>
+                </form>
+            </div>
+
         </li>
     </ul>
     <p th:if="${#lists.isEmpty(newsList)}">

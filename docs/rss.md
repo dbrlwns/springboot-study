@@ -168,3 +168,10 @@ cannot reliably process 'remove' call
 - -> 서비스 메서드에 @Transactional 을 붙여 해결가능, 레포지토리 메서드에도 붙일 수 있음.
 - - 
 - 저장은 문제없었는데 삭제에서만 문제가 발생 : save()는 트랜잭션을 자동으로 잡아 처리되지만, remove처리는 잡아주지 않음.
+
+---
+
+북마크한 기사에 대해 담기 취소 버튼 추가하기
+- 로그인 상태일 시 해당 사용자가 북마크한 기사들의 Id를 가져와 해당 ID의 뉴스들만 수정
+- Service에서 북마크 id 반환, controller에서 ID들을 View로 전달
+- 
