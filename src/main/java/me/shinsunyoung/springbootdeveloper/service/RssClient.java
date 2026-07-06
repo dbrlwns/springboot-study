@@ -7,12 +7,9 @@ import org.springframework.web.client.RestClient;
 @Component
 public class RssClient {
 
-    @Value("${rss.google-rss-url}")
-    private String rssUrl;
-
     private final RestClient restClient = RestClient.create();
 
-    public String fetch(){
+    public String fetch(String rssUrl){
         return restClient.get()
                 .uri(rssUrl)
                 .retrieve()

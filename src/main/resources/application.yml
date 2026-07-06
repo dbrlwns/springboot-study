@@ -20,5 +20,9 @@ spring:
 
 
 rss:
-  google-rss-url: https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko
   collect-fixed-rate: 100000
+  feeds:
+    - url: https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko
+      source: GOOGLE
+    - url: https://news.hada.io/rss/news
+      source: HADA

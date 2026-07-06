@@ -7,6 +7,8 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import lombok.RequiredArgsConstructor;
 
+import lombok.Value;
+import me.shinsunyoung.springbootdeveloper.config.RssProperties;
 import me.shinsunyoung.springbootdeveloper.domain.News;
 import me.shinsunyoung.springbootdeveloper.dto.NewsResponse;
 import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class RssService {
 
     private final RssClient rssClient;
     private final NewsRepository repository;
+    private final RssProperties rssProperties;
 
     // 뉴스 데이터 조회 후 반환
     public List<NewsResponse> getNews(String keyword) {
@@ -43,20 +47,29 @@ public class RssService {
     }
 
     public int collectNews() throws Exception {
-        String rssXml = rssClient.fetch();
-        SyndFeed feed = new SyndFeedInput().build(new StringReader(rssXml));
 
-        List<News> newsList = feed.getEntries().stream()
-                .map(this::entryToNews)
-                .filter(news -> !repository.existsByUrl(news.getUrl()))
-                .toList();
+        List<News> newsList = new ArrayList<>();
 
+        for(RssProperties.Feed feed:rssProperties.getFeeds()){
+            newsList.addAll(rssToNews(feed.getUrl(), feed.getSource()));
+        }
+
+//        newsList.addAll(rssToNews(rssXml, "GOOGLE"));
         repository.saveAll(newsList);
 
         return newsList.size();
     }
 
-    private News entryToNews(SyndEntry entry) {
+    private List<News> rssToNews(String rssUrl, String authorship) throws Exception {
+        String rssXml = rssClient.fetch(rssUrl);
+        SyndFeed feed = new SyndFeedInput().build(new StringReader(rssXml));
+        return feed.getEntries().stream()
+                .map(entry -> entryToNews(entry, authorship))
+                .filter(news -> !repository.existsByUrl(news.getUrl()))
+                .toList();
+    }
+
+    private News entryToNews(SyndEntry entry, String authorship) {
         String publisher = null;
         if (entry.getSource() != null) {
             publisher = entry.getSource().getTitle();
@@ -68,6 +81,7 @@ public class RssService {
                 .publisher(publisher)
                 .publishedAt(entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                 .fetchedAt(LocalDateTime.now())
+                .authorship(authorship)
                 .build();
 
     }

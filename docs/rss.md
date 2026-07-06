@@ -174,4 +174,24 @@ cannot reliably process 'remove' call
 북마크한 기사에 대해 담기 취소 버튼 추가하기
 - 로그인 상태일 시 해당 사용자가 북마크한 기사들의 Id를 가져와 해당 ID의 뉴스들만 수정
 - Service에서 북마크 id 반환, controller에서 ID들을 View로 전달
-- 
+
+--- 
+HADA RSS 도 추가하기
+- application.yml 파일에 rss.feed 하위에 2개 항목(google, hada)로 분류
+- News.java 도메인에 authorship 필드 추가
+- RssService.java의 News Builder 부분 수정 및 .map()함수 파라미터 수정
+- .
+- .
+- RssService의 newsList에 .add()로 추가하려 했으나 .toList();에 @Unmodifiable가 있어 수정불가
+- Service에서 Rss를 수집해서 리스트로 반환하는 함수를 rssToList()로 분리
+- Client에서 application.yml의 rss.feed 리스트를 넘기면 Service에서 feed[0].url or feed[1].url 로 사용이 가능한지 확인
+- .
+- .
+- Client에서 fetch() 함수에 파라미터로 rssUrl을 받아 사용하면
+- Service에서 url+authorship 데이터를 전달해서 파싱이 가능 
+- 음.. URL이 1개였을 때는 @Value("${rss.url)") 처럼 가져와 변수 사용이 가능했지만
+- 2개 이상은 확장성을 따져 리스트 안에 있는 객체를 읽는 클래스를 생성하는 것이 나음.
+- .
+- .
+- @ConfigurationProperties(prefix = "rss") 를 가지는 RssProperties 클래스 생성
+- 리스트를 가지고, 리스트의 요소 타입은 static으로 만들 내부 클래스 Feed를 사용

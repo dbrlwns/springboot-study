@@ -34,13 +34,18 @@ public class News {
     @Column(name = "fetchedAt")
     private LocalDateTime fetchedAt;
 
+    @Column(name = "authorship")
+    private String authorship;
+
     @Builder
-    public News(String title, String url, String publisher, LocalDateTime publishedAt, LocalDateTime fetchedAt) {
+    public News(String title, String url, String publisher, LocalDateTime publishedAt, LocalDateTime fetchedAt, String authorship) {
         this.title = title;
         this.url = url;
         this.publisher = publisher;
         this.publishedAt = publishedAt;
         this.fetchedAt = fetchedAt;
+        this.authorship = authorship;
+
     }
 
 }
