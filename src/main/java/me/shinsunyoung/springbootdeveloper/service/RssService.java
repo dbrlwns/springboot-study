@@ -5,6 +5,7 @@ import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 import lombok.Value;
@@ -29,12 +30,20 @@ public class RssService {
     private final RssProperties rssProperties;
 
     // 뉴스 데이터 조회 후 반환
-    public List<NewsResponse> getNews(String keyword) {
+    public List<NewsResponse> getNews(String keyword, String authorship) {
+        boolean hasKeyword = keyword != null && !keyword.trim().isBlank();
+        boolean hasAuthorship = authorship != null && !authorship.trim().isBlank();
+
         List<News> newsList;
-        if (keyword == null || keyword.isBlank()) {
-            newsList = repository.findAllByOrderByPublishedAtDesc();
-        } else {
+
+        if (hasKeyword && hasAuthorship) {
+            newsList = repository.findByTitleContainingAndAuthorshipOrderByPublishedAtDesc(keyword, authorship);
+        } else if (hasKeyword) {
             newsList = repository.findByTitleContainingOrderByPublishedAtDesc(keyword);
+        } else if (hasAuthorship) {
+            newsList = repository.findByAuthorshipContainingOrderByPublishedAtDesc(authorship);
+        } else {
+            newsList = repository.findAllByOrderByPublishedAtDesc();
         }
         return newsList.stream()
                 .map(news -> new NewsResponse(
@@ -42,7 +51,8 @@ public class RssService {
                         news.getTitle(),
                         news.getUrl(),
                         news.getPublisher(),
-                        news.getPublishedAt()
+                        news.getPublishedAt(),
+                        news.getAuthorship()
                 )).toList();
     }
 

@@ -195,3 +195,15 @@ HADA RSS 도 추가하기
 - .
 - @ConfigurationProperties(prefix = "rss") 를 가지는 RssProperties 클래스 생성
 - 리스트를 가지고, 리스트의 요소 타입은 static으로 만들 내부 클래스 Feed를 사용
+
+---
+페이지에서 RSS 링크별 표시(GOOGLE, HADA)
+- Repository에 전체 조회, 타이틀 조회, 출처 조회, 타이틀/출처 조회 메서드 추가
+- Controller에서 인자로 타이틀과 출처를 함께 받아 넘겨주고
+- Service에서 인자 유무에 따른 분기처리를 진행
+- .
+- .
+?authorship=GOOGLE 페이지에서 북마크 저장시 전체 조회 페이지로 강제이동되는 문제 수정
+- RedirectAttributes는 원래 페이지를 넘겨주지 않구나
+- Referer 을 사용하면 편하게 문제 해결이 가능하다.
+- 

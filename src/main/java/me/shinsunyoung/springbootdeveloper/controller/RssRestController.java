@@ -20,8 +20,8 @@ public class RssRestController {
     private final RssService rssService;
 
     @GetMapping("/api/news")
-    public ResponseEntity<List<NewsResponse>> getNews(@RequestParam(required = false) String keyword) {
-        List<NewsResponse> newsList = rssService.getNews(keyword);
+    public ResponseEntity<List<NewsResponse>> getNews(@RequestParam(required = false) String keyword, @RequestParam(required = false) Integer page, @RequestParam(required = false) String authorship) {
+        List<NewsResponse> newsList = rssService.getNews(keyword, authorship);
 
         return ResponseEntity.status(HttpStatus.OK).body(newsList);
     }

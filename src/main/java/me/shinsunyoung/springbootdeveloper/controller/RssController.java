@@ -1,5 +1,6 @@
 package me.shinsunyoung.springbootdeveloper.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
 import me.shinsunyoung.springbootdeveloper.domain.User;
@@ -27,9 +28,10 @@ public class RssController {
     @GetMapping("/news")
     public String newsList(@RequestParam(required = false) String keyword,
                            @RequestParam(required = false) Integer savedCount,
+                           @RequestParam(required = false) String authorship,
                            @AuthenticationPrincipal User user,
                            Model model){
-        model.addAttribute("newsList", rssService.getNews(keyword));
+        model.addAttribute("newsList", rssService.getNews(keyword, authorship));
         model.addAttribute("keyword", keyword);
         model.addAttribute("savedCount", savedCount);
 
@@ -53,9 +55,16 @@ public class RssController {
 
     // 북마크 저장
     @PostMapping("/news/bookmark/{newsId}")
-    public String addBookmark(@PathVariable Long newsId, @AuthenticationPrincipal User user){
+    public String addBookmark(@PathVariable Long newsId, @AuthenticationPrincipal User user,
+                              HttpServletRequest request){
         bookmarkService.addBookmark(user, newsId);
-        return "redirect:/news";
+
+        // referer 적용
+        String referer = request.getHeader("Referer");
+        if(referer == null || referer.isBlank()) {
+            return "redirect:/news";
+        }
+        return "redirect:" + referer;
     }
 
     @GetMapping("/my/news")

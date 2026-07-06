@@ -12,4 +12,10 @@ public interface NewsRepository extends JpaRepository<News,Long> {
     List<News>  findAllByOrderByPublishedAtDesc();
 
     List<News> findByTitleContainingOrderByPublishedAtDesc(String title);
+
+    // RSS 출처별 반환
+    List<News> findByAuthorshipContainingOrderByPublishedAtDesc(String authorship);
+
+    // Title + Authorship 같이 적용
+    List<News> findByTitleContainingAndAuthorshipOrderByPublishedAtDesc(String title, String authorship);
 }

@@ -36,6 +36,9 @@
     <p th:if="${keyword != null and !keyword.isBlank()}">
         검색어 : <span th:text="${keyword}"></span>
     </p>
+    <a th:href="@{/news}">모든 뉴스</a>
+    <a th:href="@{/news(authorship='GOOGLE')}">Google 뉴스</a>
+    <a th:href="@{/news(authorship='HADA')}">Geek 뉴스</a>
 </section>
 
 <section>
