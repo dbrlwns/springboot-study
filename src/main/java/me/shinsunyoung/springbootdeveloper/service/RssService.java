@@ -28,6 +28,7 @@ public class RssService {
     private final RssClient rssClient;
     private final NewsRepository repository;
     private final RssProperties rssProperties;
+    private final SearchEngineService searchEngineService;
 
     // 뉴스 데이터 조회 후 반환
     public List<NewsResponse> getNews(String keyword, String authorship) {
@@ -36,10 +37,14 @@ public class RssService {
 
         List<News> newsList;
 
-        if (hasKeyword && hasAuthorship) {
-            newsList = repository.findByTitleContainingAndAuthorshipOrderByPublishedAtDesc(keyword, authorship);
-        } else if (hasKeyword) {
-            newsList = repository.findByTitleContainingOrderByPublishedAtDesc(keyword);
+        if (hasKeyword) {
+            newsList = searchEngineService.searchNews(keyword);
+
+            if (hasAuthorship){
+               newsList = newsList.stream()
+                       .filter(news -> authorship.equals(news.getAuthorship()))
+                       .toList();
+            }
         } else if (hasAuthorship) {
             newsList = repository.findByAuthorshipContainingOrderByPublishedAtDesc(authorship);
         } else {
@@ -65,7 +70,12 @@ public class RssService {
         }
 
 //        newsList.addAll(rssToNews(rssXml, "GOOGLE"));
-        repository.saveAll(newsList);
+        List<News> savedNewsList = repository.saveAll(newsList);
+        // 검색엔진에 색인 추가
+        for (News news : savedNewsList) {
+            searchEngineService.indexNews(news);
+        }   // 색인 추가에 Id 사용을 명확하게 나타내기 위해 저장 후 반환 리스트를 사용
+        // 참고로 중복 색인을 rssToNews 함수에서 필터링하므로 예방할 수 있음.
 
         return newsList.size();
     }

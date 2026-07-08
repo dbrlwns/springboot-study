@@ -213,5 +213,12 @@ public class SearchEngine{
 
 
 
+    // 초기화 메서드 추가
+    public void clear(){
+        _documents.clear();
+        _avdl = null;
+        _index.clear();
+    }
+
 }
 
