@@ -33,6 +33,7 @@ public class RssController {
                            Model model){
         model.addAttribute("newsList", rssService.getNews(keyword, authorship));
         model.addAttribute("keyword", keyword);
+        model.addAttribute("authorship", authorship);
         model.addAttribute("savedCount", savedCount);
 
         // 현재 사용자 북마크 정보 전달

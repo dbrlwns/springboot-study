@@ -220,5 +220,20 @@ public class SearchEngine{
         _index.clear();
     }
 
+    // 인덱스 출력용 메서드
+    public void printEngineIndex(String keyword){
+        for(String token: tokenize(keyword)){
+            Map<Long, Integer> counts = get_urls(token);
+            System.out.println("search:"+token);
+            if(counts.isEmpty()){
+                System.out.println("no index");
+                continue;
+            }
+            for (Map.Entry<Long, Integer> entry : counts.entrySet()) {
+                System.out.println("\tnewsId:"+entry.getKey() + ", count:" + entry.getValue());
+            }
+        }
+    }
+
 }
 

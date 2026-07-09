@@ -57,6 +57,7 @@ public class SearchEngineService {
     public List<News> searchNews(String keyword){
         List<Long> newsIds = search(keyword);
         List<News> newsList = newsRepository.findAllById(newsIds);
+        searchEngine.printEngineIndex(keyword);
 
         Map<Long, News> newsMap = newsList.stream()
                 .collect(Collectors.toMap(News::getId, news -> news));

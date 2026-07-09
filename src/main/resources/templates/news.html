@@ -8,7 +8,7 @@
 
 <body>
 <header>
-    <h1>News List Page</h1>
+    <h1><a th:href="@{/news}">News List Page</a></h1>
     <div sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a> </div>
     <div sec:authorize="isAuthenticated()">
         <a th:href="@{/my/news}">user : <span sec:authentication="name"></span></a><br />
@@ -20,11 +20,12 @@
 </header>
 
 <section>
-    <form th:action="@{/news/collect}" method="post">
-        <button type="submit">뉴스 새로고침</button>
-    </form>
+<!--    <form th:action="@{/news/collect}" method="post">-->
+<!--        <button type="submit">뉴스 새로고침</button>-->
+<!--    </form>-->
     <form th:action="@{/news}" method="get">
         <label><input type="text" name="keyword" th:value="${keyword}" placeholder="검색어 입력" /></label>
+        <input type="hidden" name="authorship" th:if="${authorship != null and !authorship.isBlank()}" th:value="${authorship}" />
         <input type="submit" />
     </form>
 </section>
@@ -36,9 +37,9 @@
     <p th:if="${keyword != null and !keyword.isBlank()}">
         검색어 : <span th:text="${keyword}"></span>
     </p>
-    <a th:href="@{/news}">모든 뉴스</a>
-    <a th:href="@{/news(authorship='GOOGLE')}">Google 뉴스</a>
-    <a th:href="@{/news(authorship='HADA')}">Geek 뉴스</a>
+    <a th:href="@{/news(keyword=${keyword})}">모든 뉴스</a>
+    <a th:href="@{/news(keyword=${keyword}, authorship='GOOGLE')}">Google 뉴스</a>
+    <a th:href="@{/news(keyword=${keyword}, authorship='HADA')}">Geek 뉴스</a>
 </section>
 
 <section>
