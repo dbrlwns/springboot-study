@@ -206,4 +206,10 @@ HADA RSS 도 추가하기
 ?authorship=GOOGLE 페이지에서 북마크 저장시 전체 조회 페이지로 강제이동되는 문제 수정
 - RedirectAttributes는 원래 페이지를 넘겨주지 않구나
 - Referer 을 사용하면 편하게 문제 해결이 가능하다.
-- 
+
+
+---
+### SearchEngine에 Rss의 Description 내용도 역색인
+- getDescription()에서 null이면 .getValue()에서도 null이 반환됨에 주의 (NPE 가능성)
+- 정규표현식 사용으로 불필요한 내용 제거
+---

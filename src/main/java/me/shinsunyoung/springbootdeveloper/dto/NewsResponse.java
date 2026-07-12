@@ -9,5 +9,6 @@ public record NewsResponse(
         String url,
         String publisher,
         LocalDateTime publishedAt,
-        String authorship
+        String authorship,
+        String description
 ){}

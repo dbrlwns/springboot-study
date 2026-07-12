@@ -99,3 +99,13 @@ flowchart LR
 
 - http://localhost:8080/news
 - RSS 주소와 수집 주기는 `src/main/resources/application.yml`에서 변경이 가능하다
+
+
+---
+
+1. news의 content도 토큰화+역색인해서 검색엔진에 반영
+2. DB를 PostgreSQL로 변경
+3. CSRF 체크
+4. 테스트 코드 재정비
+5. Docker 서적 읽어보기
+6. 

@@ -57,7 +57,8 @@ public class RssService {
                         news.getUrl(),
                         news.getPublisher(),
                         news.getPublishedAt(),
-                        news.getAuthorship()
+                        news.getAuthorship(),
+                        news.getDescription()
                 )).toList();
     }
 
@@ -95,6 +96,7 @@ public class RssService {
             publisher = entry.getSource().getTitle();
         }
 
+
         return News.builder()
                 .title(entry.getTitle())
                 .url(entry.getLink())
@@ -102,7 +104,22 @@ public class RssService {
                 .publishedAt(entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                 .fetchedAt(LocalDateTime.now())
                 .authorship(authorship)
+//                .description(entry.getDescription() == null ? "" : entry.getDescription().getValue())
+                .description(extractDescription(entry))
                 .build();
 
+    }
+
+    private String extractDescription(SyndEntry entry) {
+        if (entry.getDescription() == null || entry.getDescription().getValue() == null) {
+            return "";
+        }
+//        System.out.println(entry.getDescription().getValue().replaceAll("<[^>]*", " ").replaceAll("&nbsp;", " ").replaceAll("\\s+", " ").replaceAll(">", " ").trim());
+        return entry.getDescription().getValue()
+                .replaceAll("<[^>]*", " ")
+                .replaceAll("&nbsp;", " ")
+                .replaceAll("\\s+", " ")
+                .replaceAll(">", " ")
+                .trim();
     }
 }

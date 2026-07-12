@@ -46,7 +46,8 @@ public class BookmarkService {
                         news.getUrl(),
                         news.getPublisher(),
                         news.getPublishedAt(),
-                        news.getAuthorship()
+                        news.getAuthorship(),
+                        news.getDescription()
                 ))
                 .toList();
     }

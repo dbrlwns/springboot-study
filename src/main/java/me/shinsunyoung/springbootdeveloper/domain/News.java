@@ -37,14 +37,19 @@ public class News {
     @Column(name = "authorship")
     private String authorship;
 
+    @Lob    // Large Object로 큰 데이터 필드로 저장할때 사용(보통 지금의 단순설명말고 본문 전문 정도에 사용)
+    @Column(name = "description")
+    private String description;
+
     @Builder
-    public News(String title, String url, String publisher, LocalDateTime publishedAt, LocalDateTime fetchedAt, String authorship) {
+    public News(String title, String url, String publisher, LocalDateTime publishedAt, LocalDateTime fetchedAt, String authorship, String description) {
         this.title = title;
         this.url = url;
         this.publisher = publisher;
         this.publishedAt = publishedAt;
         this.fetchedAt = fetchedAt;
         this.authorship = authorship;
+        this.description = description;
 
     }
 

@@ -37,13 +37,14 @@ public class SearchEngineService {
     public void indexNews(News news){
         String content = makeSearchContent(news);
         searchEngine.index(news.getId(), content);
-//        System.out.println("index id : " +  news.getId() + "\n content : " + content);
+        System.out.println("index id : " +  news.getId() + "\n content : " + content);
     }
 
     public String makeSearchContent(News news){
         String title = news.getTitle() == null ? "" : news.getTitle();
         String publisher = news.getPublisher() == null ? "" : news.getPublisher();
-        return title + " " + publisher;
+        String content = news.getDescription() == null ? "" : news.getDescription();
+        return title + " " + publisher + " " + content;
     }
 
     public List<Long> search(String keyword){
