@@ -2,3 +2,13 @@ spring:
   sql:
     init:
       mode: never # src/main/resources의 data.sql 파일의 자동실행을 취소
+
+
+
+rss:
+  collect-fixed-rate: 100000
+  feeds:
+    - url: https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko
+      source: GOOGLE
+    - url: https://news.hada.io/rss/news
+      source: HADA

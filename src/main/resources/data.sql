@@ -1,0 +1,5 @@
+-- INSERT INTO users (email, password)
+-- VALUES (
+--            'jkk4743@gmail.com',
+--            '$2a$10$2K3bOfQBa8zhE0X7tTy6sekHdFcpV3g9iU9a1J0mzmIQ//CGVJaxO'
+--        );

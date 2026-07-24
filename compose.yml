@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: springboot-developer-postgres
+    environment:
+      POSTGRES_DB: archive
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:  # db 데이터 유지

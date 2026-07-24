@@ -78,4 +78,10 @@ Hibernate가 DB에서 회원 정보를 가져올 때 1. 빈 Member 객체를 만
 Hibernate 용으로 Member() 같은 빈 생성자가 필요해서 사용한다.
 이때 빈 객체를 함부로 만들지 못하도록 protected로 숨김.
 
+---
+### Flyway : SQL을 이용해 테이블을 생성
+- jpa가 엔티티를 확인해서 자동 생성하는 방식은 실행 과정에서 테이블 변경 가능성이 존재한다.
+- 따라서 테이블을 명시적인 SQL파일을 사용해 생성하는 Flyway를 사용
+- 연결된 DB가 있어야 하므로 PostgreSQL을 먼저 적용, Docker Compose 방식 사용
+- docker compose up -d 명령어로 실행, docker compose ps로 상태 확인
 

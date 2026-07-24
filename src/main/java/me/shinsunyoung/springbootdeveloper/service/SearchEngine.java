@@ -14,6 +14,7 @@ public class SearchEngine{
 
     final double k1 = 1.5;
     final double b = 0.75;
+
     Map<Long, String> _documents = new HashMap<>();
     Map<String, Map<Long, Integer>> _index = new HashMap<>();
     Double _avdl = null;

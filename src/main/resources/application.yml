@@ -8,15 +8,23 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
 
-  h2:
-    console:
-      enabled: true
+  flyway:
+    enabled: true
 
+  sql:
+    init:
+      mode: never  # data.sql 자동 실행 방지
+
+  # Docker PostgreSQL 접속 정보
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/archive}
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:1234}
+
+
 
 
 rss:
