@@ -37,8 +37,8 @@ public class News {
     @Column(name = "authorship")
     private String authorship;
 
-    @Lob    // Large Object로 큰 데이터 필드로 저장할때 사용(보통 지금의 단순설명말고 본문 전문 정도에 사용)
-    @Column(name = "description")
+//    @Lob    // Large Object로 큰 데이터 필드로 저장할때 사용(보통 지금의 단순설명말고 본문 전문 정도에 사용) // PostgreSQL에선 대형 객체로 처리되어 주석처리
+    @Column(name = "description", columnDefinition = "TEXT")    // migration에서 TEXT로 정의
     private String description;
 
     @Builder

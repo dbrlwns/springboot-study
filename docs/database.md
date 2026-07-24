@@ -85,3 +85,33 @@ Hibernate 용으로 Member() 같은 빈 생성자가 필요해서 사용한다.
 - 연결된 DB가 있어야 하므로 PostgreSQL을 먼저 적용, Docker Compose 방식 사용
 - docker compose up -d 명령어로 실행, docker compose ps로 상태 확인
 
+---
+build.gradle에 설정하고
+- application.yml에 설정 후
+- /src/resources/db/migration/V1__create... 에 ddl 내용을 넣고
+- 기존 엔티티(ex.News)의 @Lob와 같은 내용을 TEXT로 정의했으면 이를 삭제
+- Flyway : 테이블 생성과 변경을 담당
+- Hibernate : 엔티티와 DB 테이블이 일치하는지 검증을 담당
+- PostgreSQL : 실제 데이터 저장 DB
+
+---
+### Docker Postgresql 장점
+- Postgresql 설치 없이, 독립된 실행 환경에서 일정하게 관리할 수 있음.
+- Docker가 요청을 컨테이너 내부의 PostgreSQL로 전달
+- volumes를 사용해 컨테이너와 데이터의 생명주기를 분리하여 컨테이너 삭제 시에도 데이터가 유지
+- compose.yml만 공유하면 팀 간 유사한 환경 구성 가능
+
+---
+### 전체 실행 흐름
+1. docker compose up -d를 실행하면 다음 순서로 동작합니다.
+2. Docker Desktop의 Docker 엔진에 명령을 전달합니다.
+3. 로컬에 postgres:16 이미지가 있는지 확인합니다.
+4. 이미지가 없다면 다운로드합니다.
+5. Compose 설정을 이용해 컨테이너를 생성합니다.
+6. postgres-data 볼륨을 연결합니다.
+7. 처음 실행이라면 archive DB와 admin 사용자를 만듭니다.
+8. PostgreSQL이 컨테이너 내부 5432 포트에서 대기합니다.
+9. Docker가 macOS의 5432 포트를 컨테이너 5432로 연결합니다.
+10. Spring Boot가 localhost:5432/archive로 접속합니다.
+11. Flyway가 migration 이력을 확인하고 필요한 SQL을 실행합니다.
+12. Hibernate가 엔티티와 테이블 구조를 검증합니다.

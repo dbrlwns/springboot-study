@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @RequiredArgsConstructor
 @Configuration
@@ -26,7 +25,6 @@ public class WebSecurityConfig {
     @Bean       // 스프링 시큐리티 기능 비활성화
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())
                 .requestMatchers("/static/**");
     }
 
