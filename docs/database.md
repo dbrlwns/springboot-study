@@ -79,10 +79,10 @@ Hibernate 용으로 Member() 같은 빈 생성자가 필요해서 사용한다.
 이때 빈 객체를 함부로 만들지 못하도록 protected로 숨김.
 
 ---
-### Flyway : SQL을 이용해 테이블을 생성
-- jpa가 엔티티를 확인해서 자동 생성하는 방식은 실행 과정에서 테이블 변경 가능성이 존재한다.
-- 따라서 테이블을 명시적인 SQL파일을 사용해 생성하는 Flyway를 사용
-- 연결된 DB가 있어야 하므로 PostgreSQL을 먼저 적용, Docker Compose 방식 사용
+## Flyway : SQL을 이용해 테이블을 생성(DB 변경이력을 관리하는 도구 )
+- JPA/Hibernate는 자바 객체와 DB 테이블을 연결하는 도구, 엔티티와 DB 구조만 검사
+- Flyway는 DB 안에 flyway_schema_history 기록 테이블을 만들어 DB 구조 변경을 버전처럼 관리 가능
+- "DB 변경 이력"이 남아 Flyway를 사용한다. 생성/변경을 담당
 - docker compose up -d 명령어로 실행, docker compose ps로 상태 확인
 
 ---
@@ -98,20 +98,31 @@ build.gradle에 설정하고
 ### Docker Postgresql 장점
 - Postgresql 설치 없이, 독립된 실행 환경에서 일정하게 관리할 수 있음.
 - Docker가 요청을 컨테이너 내부의 PostgreSQL로 전달
-- volumes를 사용해 컨테이너와 데이터의 생명주기를 분리하여 컨테이너 삭제 시에도 데이터가 유지
+- 프로젝트별 DB를 켜고 끄는 느낌, 프로젝트마다 DB 버전 고정 가능, 환경 재현이 쉬움
+- Docker로 DB를 띄우면 앱 입장에서는 "외부 PostgreSQL 서버에 접속하는 구조"가 된다. 실제 서비스 구조에 가까움
+- Docker volumes를 사용해 컨테이너와 데이터의 생명주기를 분리하여 컨테이너 삭제 시에도 데이터가 유지
 - compose.yml만 공유하면 팀 간 유사한 환경 구성 가능
+- IntelliJ에서 Database에 postgresql을 추가해서 확인할 수 있음.
 
 ---
 ### 전체 실행 흐름
-1. docker compose up -d를 실행하면 다음 순서로 동작합니다.
-2. Docker Desktop의 Docker 엔진에 명령을 전달합니다.
-3. 로컬에 postgres:16 이미지가 있는지 확인합니다.
-4. 이미지가 없다면 다운로드합니다.
-5. Compose 설정을 이용해 컨테이너를 생성합니다.
-6. postgres-data 볼륨을 연결합니다.
-7. 처음 실행이라면 archive DB와 admin 사용자를 만듭니다.
-8. PostgreSQL이 컨테이너 내부 5432 포트에서 대기합니다.
-9. Docker가 macOS의 5432 포트를 컨테이너 5432로 연결합니다.
-10. Spring Boot가 localhost:5432/archive로 접속합니다.
-11. Flyway가 migration 이력을 확인하고 필요한 SQL을 실행합니다.
-12. Hibernate가 엔티티와 테이블 구조를 검증합니다.
+1. Docker Compose로 PostgreSQL 실행
+2. Spring Boot가 PostgreSQL에 접속
+3. Flyway가 테이블 생성
+4. JPA/Hibernate가 엔티티와 테이블 매핑 검증
+5. Repository로 데이터 저장/조회
+
+---
+### 전체 구조
+
+```mermaid
+flowchart LR
+    A["Docker Compose"] --> B["PostgreSQL 컨테이너 실행"]
+    B --> C["archive DB 준비"]
+    D["Spring Boot 앱 시작"] --> E["Flyway migration 실행"]
+    E --> F["users/news/bookmark 테이블 생성"]
+    D --> G["JPA 엔티티 구조 검증"]
+    G --> H["RSS 뉴스, 회원, 북마크 데이터 저장"]
+    H --> B
+```
+---

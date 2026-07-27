@@ -1,9 +1,6 @@
-package me.shinsunyoung.springbootdeveloper.controller;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.shinsunyoung.springbootdeveloper.config.RssProperties;
-import me.shinsunyoung.springbootdeveloper.domain.News;
-import me.shinsunyoung.springbootdeveloper.service.RssService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

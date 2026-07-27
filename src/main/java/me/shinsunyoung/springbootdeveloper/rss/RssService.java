@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -10,10 +10,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import lombok.Value;
-import me.shinsunyoung.springbootdeveloper.config.RssProperties;
-import me.shinsunyoung.springbootdeveloper.domain.News;
-import me.shinsunyoung.springbootdeveloper.dto.NewsResponse;
-import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
+import me.shinsunyoung.springbootdeveloper.news.News;
+import me.shinsunyoung.springbootdeveloper.news.NewsResponse;
+import me.shinsunyoung.springbootdeveloper.news.NewsRepository;
+import me.shinsunyoung.springbootdeveloper.searchEngine.SearchEngineService;
 import org.springframework.stereotype.Service;
 
 import java.io.StringReader;

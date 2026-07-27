@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.config;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.dto;
+package me.shinsunyoung.springbootdeveloper.user;
 
 import lombok.Getter;
 import lombok.Setter;

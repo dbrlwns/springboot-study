@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

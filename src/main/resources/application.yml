@@ -28,7 +28,7 @@ spring:
 
 
 rss:
-  collect-fixed-rate: 100000
+  collect-fixed-rate: 86400000 # 1000 x 60 x 60 x 24
   feeds:
     - url: https://news.google.com/rss?hl=ko&gl=KR&ceid=KR:ko
       source: GOOGLE

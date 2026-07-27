@@ -1,8 +1,7 @@
-package me.shinsunyoung.springbootdeveloper.controller;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.dto.NewsResponse;
-import me.shinsunyoung.springbootdeveloper.service.RssService;
+import me.shinsunyoung.springbootdeveloper.news.NewsResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,4 +40,3 @@ public class RssRestController {
 
     public record NewsCollectResponse(int savedCount, LocalDateTime date, String errorMessage) {}
 }
-

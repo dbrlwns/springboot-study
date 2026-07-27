@@ -108,4 +108,9 @@ flowchart LR
 3. CSRF 체크
 4. 테스트 코드 재정비
 5. Docker 서적 읽어보기
-6. 
+
+---
+
+### Error Log
+- @RequestParam String error 에서 애너테이션에 required=fase 미적용 시 error를 계속 요청해 리다리엑트 루프가 발생함
+- 

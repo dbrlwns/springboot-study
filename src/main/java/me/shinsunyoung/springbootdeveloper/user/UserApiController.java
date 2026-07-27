@@ -1,16 +1,15 @@
-package me.shinsunyoung.springbootdeveloper.controller;
+package me.shinsunyoung.springbootdeveloper.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.dto.AddUserRequest;
-import me.shinsunyoung.springbootdeveloper.service.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequiredArgsConstructor
 @Controller // redirect 사용 흐름에서는 일반 Controller이 맞음
@@ -19,9 +18,16 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/user")
-    public String signup(AddUserRequest request){
-        userService.save(request);
-        return "redirect:/login";
+    public String signup(AddUserRequest request, RedirectAttributes redirectAttributes) {
+        try {
+            userService.save(request);
+            return "redirect:/login";
+        } catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("email",  request.getEmail());
+            return "redirect:/signup";
+        }
+
     }
 
     @GetMapping("/logout")

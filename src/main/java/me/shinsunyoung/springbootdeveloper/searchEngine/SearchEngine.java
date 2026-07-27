@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.searchEngine;
 
 import org.springframework.stereotype.Service;
 
@@ -237,4 +237,3 @@ public class SearchEngine{
     }
 
 }
-

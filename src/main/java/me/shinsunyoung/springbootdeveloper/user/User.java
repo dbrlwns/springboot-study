@@ -1,4 +1,4 @@
-package me.shinsunyoung.springbootdeveloper.domain;
+package me.shinsunyoung.springbootdeveloper.user;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

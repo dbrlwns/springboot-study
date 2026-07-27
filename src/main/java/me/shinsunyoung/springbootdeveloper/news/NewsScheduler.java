@@ -1,18 +1,18 @@
-package me.shinsunyoung.springbootdeveloper;
+package me.shinsunyoung.springbootdeveloper.news;
 
 
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.service.RssService;
+import me.shinsunyoung.springbootdeveloper.rss.RssService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class NewScheduler {
+public class NewsScheduler {
 
     private final RssService rssService;
 
-    @Scheduled(fixedRateString = "${rss.collect-fixed-rate}")  // 10분마다 자동 실행
+    @Scheduled(fixedRateString = "${rss.collect-fixed-rate}")
     public void scheduled() throws Exception {
         rssService.collectNews();
     }

@@ -1,8 +1,7 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.user;
 
 
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

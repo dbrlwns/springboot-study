@@ -1,8 +1,6 @@
-package me.shinsunyoung.springbootdeveloper.repository;
+package me.shinsunyoung.springbootdeveloper.news;
 
-import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
-import me.shinsunyoung.springbootdeveloper.domain.News;
-import me.shinsunyoung.springbootdeveloper.domain.User;
+import me.shinsunyoung.springbootdeveloper.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

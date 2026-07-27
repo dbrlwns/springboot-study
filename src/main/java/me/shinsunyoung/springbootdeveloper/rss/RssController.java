@@ -1,12 +1,9 @@
-package me.shinsunyoung.springbootdeveloper.controller;
+package me.shinsunyoung.springbootdeveloper.rss;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
-import me.shinsunyoung.springbootdeveloper.domain.User;
-import me.shinsunyoung.springbootdeveloper.repository.BookmarkRepository;
-import me.shinsunyoung.springbootdeveloper.service.BookmarkService;
-import me.shinsunyoung.springbootdeveloper.service.RssService;
+import me.shinsunyoung.springbootdeveloper.news.BookmarkService;
+import me.shinsunyoung.springbootdeveloper.user.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,13 +1,8 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.news;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.domain.Bookmark;
-import me.shinsunyoung.springbootdeveloper.domain.News;
-import me.shinsunyoung.springbootdeveloper.domain.User;
-import me.shinsunyoung.springbootdeveloper.dto.NewsResponse;
-import me.shinsunyoung.springbootdeveloper.repository.BookmarkRepository;
-import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
+import me.shinsunyoung.springbootdeveloper.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

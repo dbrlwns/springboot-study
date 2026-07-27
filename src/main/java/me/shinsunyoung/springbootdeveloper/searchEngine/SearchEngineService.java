@@ -1,9 +1,10 @@
-package me.shinsunyoung.springbootdeveloper.service;
+package me.shinsunyoung.springbootdeveloper.searchEngine;
+
+import me.shinsunyoung.springbootdeveloper.news.News;
+import me.shinsunyoung.springbootdeveloper.news.NewsRepository;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.domain.News;
-import me.shinsunyoung.springbootdeveloper.repository.NewsRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;

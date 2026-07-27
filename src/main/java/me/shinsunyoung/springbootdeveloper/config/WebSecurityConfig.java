@@ -1,7 +1,7 @@
 package me.shinsunyoung.springbootdeveloper.config;
 
 import lombok.RequiredArgsConstructor;
-import me.shinsunyoung.springbootdeveloper.service.UserDetailService;
+import me.shinsunyoung.springbootdeveloper.user.UserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,11 +32,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth // 인증, 인가
-                        .requestMatchers("/", "/login", "/signup", "/user", "/news").permitAll()
+                        .requestMatchers("/", "/login", "/signup", "/user", "/news", "/api/news").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form // 폼 기반 로그인 설정
                         .loginPage("/login")
+                        .failureUrl("/login?error")
                         .defaultSuccessUrl("/news", true)
                 )
                 .logout(logout -> {
