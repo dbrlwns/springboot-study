@@ -2,6 +2,8 @@ package me.shinsunyoung.springbootdeveloper.rss;
 
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.news.NewsResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,24 @@ public class RssRestController {
     private final RssService rssService;
 
     @GetMapping("/api/news")
-    public ResponseEntity<List<NewsResponse>> getNews(@RequestParam(required = false) String keyword, @RequestParam(required = false) Integer page, @RequestParam(required = false) String authorship) {
-        List<NewsResponse> newsList = rssService.getNews(keyword, authorship);
+    public ResponseEntity<Page<NewsResponse>> getNews(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String authorship,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
 
-        return ResponseEntity.status(HttpStatus.OK).body(newsList);
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), 100);
+
+//        List<NewsResponse> newsList = rssService.getNews(keyword, authorship, );
+        Page<NewsResponse> newsPage = rssService.getNews(
+                keyword,
+                authorship,
+                PageRequest.of(safePage, safeSize)
+        );
+
+//        return ResponseEntity.status(HttpStatus.OK).body(newsPage);
+        return ResponseEntity.ok(newsPage);
     }
 
     @PostMapping("/api/news/collect")

@@ -213,3 +213,13 @@ HADA RSS 도 추가하기
 - getDescription()에서 null이면 .getValue()에서도 null이 반환됨에 주의 (NPE 가능성)
 - 정규표현식 사용으로 불필요한 내용 제거
 ---
+
+### Pagenation
+- 요청받은 page와 size를 Pageable 객체로 만들어, 조회 시 Page<NewsResponse>로 반환
+
+1. RssController에서 PageRequest를 생성
+2. RssService에 뉴스 요청 때 함께 전달
+3. List<News> -> Page<News> -> Page<NewsResponse>  순으로 바뀜
+
+- 출처는 PostgreSQL에서 처리하지만 키워드는 검색엔진으로 Java 내부 메모리에서 처리된다
+- 후에 검색엔진이 반환한 ID 목록을 페이지 단위로 잘라, 해당 ID들만 DB에서 조회하도록 변경

@@ -38,7 +38,7 @@ public class SearchEngineService {
     public void indexNews(News news){
         String content = makeSearchContent(news);
         searchEngine.index(news.getId(), content);
-        System.out.println("index id : " +  news.getId() + "\n content : " + content);
+        System.out.println("indexed - id : " +  news.getId() + "\n content : " + content);
     }
 
     public String makeSearchContent(News news){
@@ -61,12 +61,13 @@ public class SearchEngineService {
         List<News> newsList = newsRepository.findAllById(newsIds);
         searchEngine.printEngineIndex(keyword);
 
+        // findAllById는 순서를 보장X -> 순서 복원
         Map<Long, News> newsMap = newsList.stream()
                 .collect(Collectors.toMap(News::getId, news -> news));
 
         return newsIds.stream()
                 .map(newsMap::get)
-                .filter(Objects::nonNull)
+                .filter(Objects::nonNull)   // 검색 엔진에는 있고 DB에는 삭제된 뉴스 제거
                 .toList();
     }
 

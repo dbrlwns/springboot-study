@@ -3,7 +3,10 @@ package me.shinsunyoung.springbootdeveloper.rss;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import me.shinsunyoung.springbootdeveloper.news.BookmarkService;
+import me.shinsunyoung.springbootdeveloper.news.NewsResponse;
 import me.shinsunyoung.springbootdeveloper.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +29,20 @@ public class RssController {
     public String newsList(@RequestParam(required = false) String keyword,
                            @RequestParam(required = false) Integer savedCount,
                            @RequestParam(required = false) String authorship,
+                           @RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "20") int size,
                            @AuthenticationPrincipal User user,
                            Model model){
-        model.addAttribute("newsList", rssService.getNews(keyword, authorship));
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.min(Math.max(size, 1), 100);
+
+        PageRequest pageable = PageRequest.of(safePage, safeSize);
+
+        Page<NewsResponse> newsPage = rssService.getNews(keyword, authorship, pageable);
+
+        model.addAttribute("newsPage", newsPage);
+        model.addAttribute("newsList", newsPage.getContent());
+
         model.addAttribute("keyword", keyword);
         model.addAttribute("authorship", authorship);
         model.addAttribute("savedCount", savedCount);

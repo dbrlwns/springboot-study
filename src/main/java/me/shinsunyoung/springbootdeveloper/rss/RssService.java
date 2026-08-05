@@ -14,6 +14,9 @@ import me.shinsunyoung.springbootdeveloper.news.News;
 import me.shinsunyoung.springbootdeveloper.news.NewsResponse;
 import me.shinsunyoung.springbootdeveloper.news.NewsRepository;
 import me.shinsunyoung.springbootdeveloper.searchEngine.SearchEngineService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.StringReader;
@@ -32,35 +35,57 @@ public class RssService {
     private final SearchEngineService searchEngineService;
 
     // 뉴스 데이터 조회 후 반환
-    public List<NewsResponse> getNews(String keyword, String authorship) {
+    public Page<NewsResponse> getNews(String keyword, String authorship, Pageable pageable) {
         boolean hasKeyword = keyword != null && !keyword.trim().isBlank();
         boolean hasAuthorship = authorship != null && !authorship.trim().isBlank();
 
-        List<News> newsList;
+        Page<News> newsPage;
 
-        if (hasKeyword) {
-            newsList = searchEngineService.searchNews(keyword);
+        if (hasKeyword) {                                                       // 검색
+            List<News> searchedNews = searchEngineService.searchNews(keyword);
 
-            if (hasAuthorship){
-               newsList = newsList.stream()
+            if (hasAuthorship){                                                 // 검색 & 출처
+               searchedNews = searchedNews.stream()
                        .filter(news -> authorship.equals(news.getAuthorship()))
                        .toList();
             }
-        } else if (hasAuthorship) {
-            newsList = repository.findByAuthorshipContainingOrderByPublishedAtDesc(authorship);
+            newsPage = toPage(searchedNews, pageable);
+        } else if (hasAuthorship) {                                             // 출처
+            newsPage = repository.findByAuthorshipContainingOrderByPublishedAtDesc(authorship, pageable);
         } else {
-            newsList = repository.findAllByOrderByPublishedAtDesc();
+            newsPage = repository.findAllByOrderByPublishedAtDesc(pageable);    // 일반 목록
         }
-        return newsList.stream()
-                .map(news -> new NewsResponse(
-                        news.getId(),
-                        news.getTitle(),
-                        news.getUrl(),
-                        news.getPublisher(),
-                        news.getPublishedAt(),
-                        news.getAuthorship(),
-                        news.getDescription()
-                )).toList();
+        return newsPage.map(this::toResponse);
+    }
+
+    private NewsResponse toResponse(News news){
+        return new NewsResponse(
+                news.getId(),
+                news.getTitle(),
+                news.getUrl(),
+                news.getPublisher(),
+                news.getPublishedAt(),
+                news.getAuthorship(),
+                news.getDescription()
+        );
+    }
+
+    // 검색 결과를 페이지로 분배
+    private Page<News> toPage(List<News> newsList, Pageable pageable) {
+        int start = Math.toIntExact(pageable.getOffset());
+
+        if(start >= newsList.size()){
+            return new PageImpl<>(
+                    List.of(),
+                    pageable,
+                    newsList.size()
+            );
+        }
+
+        int end = Math.min(start + pageable.getPageSize(), newsList.size());
+
+        List<News> content = newsList.subList(start, end);
+        return new PageImpl<>(content, pageable, newsList.size());
     }
 
     public int collectNews() throws Exception {

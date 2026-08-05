@@ -68,5 +68,38 @@
         표시할 뉴스가 없습니다.
     </p>
 </section>
+
+<nav th:if="${newsPage.totalPages > 0}">
+
+    <a th:if="${newsPage.hasPrevious()}"
+       th:href="@{/news(
+           page=${newsPage.number - 1},
+           size=${newsPage.size},
+           keyword=${keyword},
+           authorship=${authorship}
+       )}">
+        이전
+    </a>
+
+    <span th:text="|${newsPage.number + 1} / ${newsPage.totalPages}|">
+        1 / 1
+    </span>
+
+    <a th:if="${newsPage.hasNext()}"
+       th:href="@{/news(
+           page=${newsPage.number + 1},
+           size=${newsPage.size},
+           keyword=${keyword},
+           authorship=${authorship}
+       )}">
+        다음
+    </a>
+
+    <span th:text="|전체 ${newsPage.totalElements}건|">
+        전체 0건
+    </span>
+
+</nav>
+
 </body>
 </html>
